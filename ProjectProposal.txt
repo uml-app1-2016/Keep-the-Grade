@@ -1,1 +1,27 @@
-Project proposal here.
+Keep the Grade
+Project Proposal
+Programmers: Adam Gaudreau, Tim Larocque, Ashley Hale
+
+ABOUT
+Keep the Grade will keep track of all your current classes’ grades so you can know where you stand in each one. The user will be able to create a ‘class’ and input information from the syllabus so it’s all in one place. When grades are entered, the app will provide analytics so you can see your progress through the class.
+
+FEATURES
+SQL database to store class information.
+Several activities to enter and display data.
+Notification service to remind user of deadlines.
+Google Calendar API for keeping up to date with deadlines so it’s synced across all platforms.
+
+
+RESPONSIBILITIES
+
+- Adam
+Database stuff
+Git manager
+
+- Tim 
+UI Design
+Layouts
+
+- Ashley
+API stuff 
+(Calendar API and maybe Graph API)
