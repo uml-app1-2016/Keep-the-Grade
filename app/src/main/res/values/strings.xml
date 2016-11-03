@@ -16,4 +16,10 @@
     <string name="spinner_hw">HW</string>
     <string name="spinner_quiz">Quizzes</string>
     <string name="spinner_final">Final</string>
+
+    <string name="grade_total">Current Grade</string>
+    <string name="grade_exams">Exam Grades</string>
+    <string name="grade_quiz">Quiz Grades</string>
+    <string name="grade_hw">HW Grades</string>
+    <string name="grade_final_exam">Final Exam Grade</string>
 </resources>
