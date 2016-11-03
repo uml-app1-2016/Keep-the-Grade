@@ -6,32 +6,51 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <!--Spinner that goes above the graph for user to pick what they will be looking at -->
         <Spinner
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:spinnerMode="dialog">
             <TextView
+                android:id="@+id/spinner_all_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="All"/>
+                android:text="@string/spinner_all"/>
             <TextView
+                android:id="@+id/spinner_exams_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Exams"/>
+                android:text="@string/spinner_exams"/>
             <TextView
+                android:id="@+id/spinner_hw_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HW"/>
+                android:text="@string/spinner_hw"/>
             <TextView
+                android:id="@+id/spinner_quiz_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quizzes"/>
+                android:text="@string/spinner_quiz"/>
             <TextView
+                android:id="@+id/spinner_final_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Final"/>
+                android:text="@string/spinner_final"/>
         </Spinner>
+
+        <!-- Graph to be inserted here. -->
+
+        <!-- Total grade goes here -->
+
+        <!-- Exam grades go here with "add a grade button"-->
+
+        <!-- Quiz grades go here with "add a grade button"-->
+
+        <!-- HW grades go here with "add a grade button"-->
+
+        <!-- Final grade goes here with "add a grade button"-->
 
     </ListView>
 
