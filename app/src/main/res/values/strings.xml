@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">KeepTheGrade</string>
+    <string name="app_name">Keep The Grade</string>
+    <string name="drawer_open">Open semester drawer</string>
+    <string name="drawer_close">Close semester drawer</string>
+    <string name="delete_semester">Delete current semester</string>
+    <string name="refresh_drawer">Refresh semester list</string>
+
+    <string name="label_name">Name</string>
+    <string name="label_season">Season</string>
+    <string name="label_year">Year</string>
+    <string name="label_current">Current Semester</string>
 </resources>
