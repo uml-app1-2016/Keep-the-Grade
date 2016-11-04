@@ -26,15 +26,4 @@
         android:layout_height="wrap_content"
         android:inputType="number" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/label_current" />
-
-    <EditText
-        android:id="@+id/current_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number" />
-
 </LinearLayout>

@@ -21,8 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String SQL_CREATE_SEMESTER_TABLE = "CREATE TABLE " + SemesterEntry.TABLE_NAME + " ("
                 + SemesterEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + SemesterEntry.COLUMN_SEASON + " INTEGER NOT NULL, "
-                + SemesterEntry.COLUMN_YEAR + " TEXT NOT NULL, "
-                + SemesterEntry.COLUMN_CURRENT + " INTEGER NOT NULL DEFAULT 0);";
+                + SemesterEntry.COLUMN_YEAR + " TEXT NOT NULL);";
         String SQL_CREATE_CLASS_TABLE = "CREATE TABLE " + ClassEntry.TABLE_NAME + " ("
                 + ClassEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ClassEntry.COLUMN_SEM_ID + " INTEGER NOT NULL, "

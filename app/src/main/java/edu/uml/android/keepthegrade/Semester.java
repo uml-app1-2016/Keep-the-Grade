@@ -9,9 +9,8 @@ public class Semester {
     private int id;
     private String season;
     private int year;
-    private int current;
 
-    public Semester(int i, int s, int y, int c) {
+    public Semester(int i, int s, int y) {
         id = i;
         switch (s) {
             case 0:
@@ -28,10 +27,9 @@ public class Semester {
                 break;
         }
         year = y;
-        current = c;
     }
 
-    public Semester(int s, int y, int c) {
+    public Semester(int s, int y) {
         switch (s) {
             case 0:
                 season = "Fall";
@@ -47,12 +45,10 @@ public class Semester {
                 break;
         }
         year = y;
-        current = c;
     }
 
     public int getId() { return id; }
     public String getSeason() { return season; }
     public int getYear() { return year; }
-    public int getCurrent() { return current; }
 
 }

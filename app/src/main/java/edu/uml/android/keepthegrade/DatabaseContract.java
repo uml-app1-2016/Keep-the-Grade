@@ -14,9 +14,6 @@ public final class DatabaseContract {
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_SEASON = "season";
         public static final String COLUMN_YEAR = "year";
-        public static final String COLUMN_CURRENT = "current";
-        public static final int CURRENT_NO = 0;
-        public static final int CURRENT_YES = 1;
         public static final int SEASON_FALL = 0;
         public static final int SEASON_WINTER = 1;
         public static final int SEASON_SPRING = 2;
