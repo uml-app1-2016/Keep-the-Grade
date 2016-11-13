@@ -1,5 +1,6 @@
 package edu.uml.android.keepthegrade;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
         // Add the semesters, and display the most recent one first.
-        addSemestersToDrawer("top", 0);
+        addSemestersToDrawer("top", 0, this);
         setupDrawer();
         updateSemesterView();
         // Display the two menu buttons on action bar
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         @param year; The year we want to display.
         @return N/A
      */
-    private void addSemestersToDrawer(String season, int year) {
+    private void addSemestersToDrawer(String season, int year, final Context context) {
         // Fetch the list of semesters from database and add them to view
         Semester[] semesters = dbUtils.getSemesterList();
         String[] semestersArray = new String[semesters.length + 1];
@@ -83,10 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 String newSemester = parent.getItemAtPosition(position).toString();
                 // If the user wants to add a semester...
                 if (newSemester.equals("   + Add new semester")) {
+                    LayoutInflater li = LayoutInflater.from(context);
+                    View promptsView = li.inflate(R.layout.add_semester_popup, null);
+                    Spinner dropdown = (Spinner)  promptsView.findViewById(R.id.season_field);
+                    String[] items = new String[]{"Fall", "Winter", "Spring", "Summer"};
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);
+                    dropdown.setAdapter(adapter);
                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
                         .setCancelable(true)
                         .setMessage("Please enter semester info")
-                        .setView(R.layout.add_semester_popup)
+                        .setView(promptsView)
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -97,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // Add the semester
-                                EditText seasonField = (EditText) ((AlertDialog) dialog).findViewById(R.id.season_field);
+                                Spinner seasonField = (Spinner) ((AlertDialog) dialog).findViewById(R.id.season_field);
                                 EditText yearField = (EditText) ((AlertDialog) dialog).findViewById(R.id.year_field);
-                                String y = yearField.getText().toString(), s = seasonField.getText().toString();
+                                String y = yearField.getText().toString(), s = seasonField.getSelectedItem().toString();
                                 // Check to make sure we don't have duplicates
                                 if (dbUtils.checkForDuplicates(s, Integer.parseInt(y))) {
                                     int sI, yI = Integer.parseInt(y);
@@ -112,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (dbUtils.addSemester(sem)) {
                                         Toast.makeText(MainActivity.this, "Added semester!", Toast.LENGTH_SHORT).show();
                                         mDrawerLayout.closeDrawers();
-                                        addSemestersToDrawer(s, yI);
+                                        addSemestersToDrawer(s, yI, context);
                                     } else {
                                         Toast.makeText(MainActivity.this, "Error adding semester", Toast.LENGTH_SHORT).show();
                                     }
@@ -126,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     String season = newSemester.split("\\s+")[0];
                     int year = Integer.parseInt(newSemester.split("\\s+")[1]);
-                    addSemestersToDrawer(season, year);
+                    addSemestersToDrawer(season, year, context);
                     updateSemesterView();
                     // Close the drawer
                     mDrawerLayout.closeDrawers();
@@ -214,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        final Context context = this;
 
         // User wants to delete semester
         if (id == R.id.action_delete_semester) {
@@ -235,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                     dbUtils.deleteSemester(currentSemester.getId());
                     currentSemester = null;
                     Toast.makeText(MainActivity.this, "Deleted semester!", Toast.LENGTH_SHORT).show();
-                    addSemestersToDrawer("top", 0);
+                    addSemestersToDrawer("top", 0, context);
                     updateSemesterView();
                 }
             });

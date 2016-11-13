@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import edu.uml.android.keepthegrade.DatabaseContract.SemesterEntry;
 import edu.uml.android.keepthegrade.DatabaseContract.ClassEntry;
@@ -98,9 +99,11 @@ public class DatabaseUtils {
         else sI = 0;
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SemesterEntry.TABLE_NAME
-                + " WHERE " + SemesterEntry.COLUMN_SEASON + " = " + sI
-                + " AND " + SemesterEntry.COLUMN_YEAR + " = " + SemesterEntry.COLUMN_YEAR, null);
+        Cursor cursor = db.query(SemesterEntry.TABLE_NAME,
+                new String[]{SemesterEntry.COLUMN_SEASON},
+                SemesterEntry.COLUMN_SEASON + " = ? AND " + SemesterEntry.COLUMN_YEAR + " = ?",
+                new String[]{Integer.toString(sI), Integer.toString(year)},
+                null, null, null);
 
         if (cursor.getCount() != 0) {
             // There are duplicates, so we don't want to add
