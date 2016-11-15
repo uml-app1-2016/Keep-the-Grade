@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(MainActivity.this, "Added semester!", Toast.LENGTH_SHORT).show();
                                         mDrawerLayout.closeDrawers();
                                         addSemestersToDrawer(s, yI, context);
+                                        setupAddClassButton(context);
                                     } else {
                                         Toast.makeText(MainActivity.this, "Error adding semester", Toast.LENGTH_SHORT).show();
                                     }
@@ -216,51 +217,55 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAddClassButton(Context context) {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_class_button);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create a dialogue
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
-                        .setCancelable(true)
-                        .setMessage("Please enter class info")
-                        .setView(currentSemester.isCompleted() ? R.layout.add_class_popup_completed : R.layout.add_class_popup)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // Just dismiss the alert
-                                dialogInterface.dismiss();
-                            }
-                        })
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Add the class
-                                EditText nameField = (EditText) ((AlertDialog) dialog).findViewById(R.id.name_field);
-                                String name = nameField.getText().toString();
-                                int semId = currentSemester.getId();
-                                double grade = -1;
-                                if (currentSemester.isCompleted()) {
-                                    EditText gradeField = (EditText) ((AlertDialog) dialog).findViewById(R.id.grade_field);
-                                    try {
-                                        grade = Double.parseDouble(gradeField.getText().toString());
-                                    } catch (NumberFormatException e) {
-                                        Toast.makeText(MainActivity.this, "Error: invalid input for grade.",
+        if (currentSemester == null) {
+            fab.setVisibility(View.GONE);
+        } else {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Create a dialogue
+                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+                            .setCancelable(true)
+                            .setMessage("Please enter class info")
+                            .setView(currentSemester.isCompleted() ? R.layout.add_class_popup_completed : R.layout.add_class_popup)
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // Just dismiss the alert
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Add the class
+                                    EditText nameField = (EditText) ((AlertDialog) dialog).findViewById(R.id.name_field);
+                                    String name = nameField.getText().toString();
+                                    int semId = currentSemester.getId();
+                                    double grade = -1;
+                                    if (currentSemester.isCompleted()) {
+                                        EditText gradeField = (EditText) ((AlertDialog) dialog).findViewById(R.id.grade_field);
+                                        try {
+                                            grade = Double.parseDouble(gradeField.getText().toString());
+                                        } catch (NumberFormatException e) {
+                                            Toast.makeText(MainActivity.this, "Error: invalid input for grade.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    if (name.length() != 0 && grade >= -1) {
+                                        if (dbUtils.addClass(new Class(-1, semId, name, grade))) {
+                                            Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
+                                            updateSemesterView();
+                                        }
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                if (name.length() != 0 && grade >= -1) {
-                                    if (dbUtils.addClass(new Class(-1, semId, name, grade))) {
-                                        Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
-                                        updateSemesterView();
-                                    }
-                                } else {
-                                    Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }).create();
-                alertDialog.show();
-            }
-        });
+                            }).create();
+                    alertDialog.show();
+                }
+            });
+        }
     }
 
     /*
