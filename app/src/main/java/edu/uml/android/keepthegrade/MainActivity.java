@@ -188,30 +188,38 @@ public class MainActivity extends AppCompatActivity {
      */
     private void updateSemesterView() {
         ListView classListView = (ListView) findViewById(R.id.class_list_view);
-        mClassAdapter = new ClassAdapter(this, dbUtils.getClassList(currentSemester.getId()));
-        // If we can't find any classes, say so to the user
-        if (mClassAdapter.getCount() == 0) {
+        if (currentSemester != null) {
+            mClassAdapter = new ClassAdapter(this, dbUtils.getClassList(currentSemester.getId()));
+            // If we can't find any classes, say so to the user
+            if (mClassAdapter.getCount() == 0) {
+                classListView.setVisibility(View.GONE);
+                TextView empty = (TextView) findViewById(R.id.no_classes);
+                empty.setText("No classes for " + currentSemester.getSeason() + " "
+                        + currentSemester.getYear() + " semester.");
+                empty.setVisibility(View.VISIBLE);
+                // Otherwise, set the adapter for the list view
+            } else {
+                classListView.setVisibility(View.VISIBLE);
+                TextView empty = (TextView) findViewById(R.id.no_classes);
+                empty.setVisibility(View.GONE);
+                classListView.setAdapter(mClassAdapter);
+                // Set up on click listener for each item
+                classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Class c = mClassAdapter.getItem(i);
+                        Intent intent = new Intent(MainActivity.this, ClassActivity.class);
+                        intent.putExtra("classId", c.getClassId());
+                        startActivity(intent);
+                    }
+                });
+            }
+        } else {
+            mClassAdapter = new ClassAdapter(this, new ArrayList<Class>());
             classListView.setVisibility(View.GONE);
             TextView empty = (TextView) findViewById(R.id.no_classes);
-            empty.setText("No classes for " + currentSemester.getSeason() + " "
-                    + currentSemester.getYear() + " semester.");
+            empty.setText("No semesters. To add one, look in the drawer <--");
             empty.setVisibility(View.VISIBLE);
-        // Otherwise, set the adapter for the list view
-        } else {
-            classListView.setVisibility(View.VISIBLE);
-            TextView empty = (TextView) findViewById(R.id.no_classes);
-            empty.setVisibility(View.GONE);
-            classListView.setAdapter(mClassAdapter);
-            // Set up on click listener for each item
-            classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Class c = mClassAdapter.getItem(i);
-                    Intent intent = new Intent(MainActivity.this, ClassActivity.class);
-                    intent.putExtra("classId", c.getClassId());
-                    startActivity(intent);
-                }
-            });
         }
     }
 
