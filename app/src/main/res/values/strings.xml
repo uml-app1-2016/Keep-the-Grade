@@ -11,11 +11,13 @@
     <string name="label_year">Year</string>
     <string name="label_current">Current Semester</string>
 
-    <string name="spinner_all">All</string>
-    <string name="spinner_exams">Exams</string>
-    <string name="spinner_hw">HW</string>
-    <string name="spinner_quiz">Quizzes</string>
-    <string name="spinner_final">Final</string>
+    <string-array name="spinner_items">
+        <item>All</item>
+        <item>Exams</item>
+        <item>HW</item>
+        <item>Quizzes</item>
+        <item>Final</item>
+    </string-array>
 
     <string name="grade_total">Current Grade</string>
     <string name="grade_exams">Exam Grades</string>
