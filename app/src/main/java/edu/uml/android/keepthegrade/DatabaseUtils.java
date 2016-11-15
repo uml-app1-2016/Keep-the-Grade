@@ -145,8 +145,18 @@ public class DatabaseUtils {
     }
 
     public boolean addClass(Class c) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ClassEntry.COLUMN_SEM_ID, c.getSemesterId());
+        values.put(ClassEntry.COLUMN_NAME, c.getName());
+        values.put(ClassEntry.COLUMN_GRADE, c.getGrade());
 
-        return true;
+        long newRowId = db.insert(ClassEntry.TABLE_NAME, null, values);
+
+        if (newRowId != -1)
+            return true;
+        else
+            return false;
     }
 
 }

@@ -35,8 +35,8 @@ public class ClassAdapter extends ArrayAdapter<Class> {
         nameView.setText(currentClass.getName());
 
         TextView gradeView = (TextView) listItemView.findViewById(R.id.class_grade);
-        if (gradeView.getText().toString().equals("-1"))
-            gradeView.setText("--");
+        if (currentClass.getGrade() == -1)
+            gradeView.setText("N/A");
         else
             gradeView.setText(Double.toString(currentClass.getGrade()));
 

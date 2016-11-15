@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CoordinatorLayout
+<LinearLayout
     android:id="@+id/class_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:background="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"/>
 
     <!-- Graph goes here -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:orientation="vertical"
         tools:context="edu.uml.android.keepthegrade.ClassActivity">
 
@@ -111,4 +105,4 @@
         <!-- Add a grade button here -->
     </LinearLayout>
     <!-- Add final grade here -->
-</CoordinatorLayout>
+</LinearLayout>

@@ -2,6 +2,7 @@ package edu.uml.android.keepthegrade;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -197,7 +197,20 @@ public class MainActivity extends AppCompatActivity {
             empty.setVisibility(View.VISIBLE);
         // Otherwise, set the adapter for the list view
         } else {
+            classListView.setVisibility(View.VISIBLE);
+            TextView empty = (TextView) findViewById(R.id.no_classes);
+            empty.setVisibility(View.GONE);
             classListView.setAdapter(mClassAdapter);
+            // Set up on click listener for each item
+            classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Class c = mClassAdapter.getItem(i);
+                    Intent intent = new Intent(MainActivity.this, ClassActivity.class);
+                    intent.putExtra("classId", c.getClassId());
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -237,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (name.length() != 0 && grade >= -1) {
                                     if (dbUtils.addClass(new Class(-1, semId, name, grade))) {
                                         Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
+                                        updateSemesterView();
                                     }
                                 } else {
                                     Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
