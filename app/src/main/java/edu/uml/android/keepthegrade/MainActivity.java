@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private String mActivityTitle;
     // Variables for the use of database
     private DatabaseUtils dbUtils;
-    private Semester currentSemester;
+    private Semester currentSemester = null;
     // Variables for adapter
     private ClassAdapter mClassAdapter;
 
