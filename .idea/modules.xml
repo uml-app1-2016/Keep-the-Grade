@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Keep-the-Grade.iml" filepath="$PROJECT_DIR$/Keep-the-Grade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/KeepTheGrade.iml" filepath="$PROJECT_DIR$/KeepTheGrade.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

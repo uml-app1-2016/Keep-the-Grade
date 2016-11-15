@@ -11,7 +11,7 @@
     <string name="label_year">Year</string>
     <string name="label_current">Current Semester</string>
 
-    <string-array name="spinner_items">
+    <string-array name="chart_titles">
         <item>All</item>
         <item>Exams</item>
         <item>HW</item>
