@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">KeepTheGrade</string>
+
+    <!--
+    Array of Chart Titles for Display to the User
+    -->
+    <string-array name="chart_titles">
+        <item>Assignments</item>
+        <item>Exams</item>
+        <item>Projects</item>
+        <item>Final</item>
+    </string-array>
 </resources>
