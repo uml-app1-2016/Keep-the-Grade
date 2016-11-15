@@ -4,9 +4,24 @@
     <string name="drawer_close">Close semester drawer</string>
     <string name="delete_semester">Delete current semester</string>
     <string name="refresh_drawer">Refresh semester list</string>
+    <string name="delete_class">Delete current semester</string>
 
     <string name="label_name">Name</string>
     <string name="label_season">Season</string>
     <string name="label_year">Year</string>
     <string name="label_current">Current Semester</string>
+
+    <string-array name="spinner_items">
+        <item>All</item>
+        <item>Exams</item>
+        <item>HW</item>
+        <item>Quizzes</item>
+        <item>Final</item>
+    </string-array>
+
+    <string name="grade_total">Current Grade</string>
+    <string name="grade_exams">Exam Grades</string>
+    <string name="grade_quiz">Quiz Grades</string>
+    <string name="grade_hw">HW Grades</string>
+    <string name="grade_final_exam">Final Exam Grade</string>
 </resources>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoordinatorLayout
+    android:id="@+id/class_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:background="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"/>
+
+    <!-- Graph goes here -->
+
+    <!-- Current Grade -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="wrap_content"
+            android:text="@string/grade_total"/>
+        <TextView
+            android:id="@+id/currentGrade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="A"/>
+    </LinearLayout>
+
+    <!-- Exam Grades -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/grade_exams"/>
+        <!-- Add a grade button here -->
+    </LinearLayout>
+    <!-- Add list of exam grades -->
+
+    <!-- Quiz Grades -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grade_exams"/>
+        <!-- Add a grade button here -->
+    </LinearLayout>
+    <!-- Add list of Quiz grades -->
+
+    <!-- HW Grades -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grade_hw"/>
+        <!-- Add a grade button here -->
+    </LinearLayout>
+    <!-- Add list of HW grades -->
+
+    <!-- Final Grade -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grade_final_exam"/>
+        <!-- Add a grade button here -->
+    </LinearLayout>
+    <!-- Add final grade here -->
+</CoordinatorLayout>
