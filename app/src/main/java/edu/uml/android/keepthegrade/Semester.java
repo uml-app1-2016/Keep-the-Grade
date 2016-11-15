@@ -1,5 +1,7 @@
 package edu.uml.android.keepthegrade;
 
+import java.util.Calendar;
+
 /**
  * Created by adam on 11/2/16.
  */
@@ -50,5 +52,15 @@ public class Semester {
     public int getId() { return id; }
     public String getSeason() { return season; }
     public int getYear() { return year; }
+
+    public boolean isCompleted() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        // We are past the current semester
+        if (year >= this.getYear())
+            return true;
+        else
+            return false;
+    }
 
 }

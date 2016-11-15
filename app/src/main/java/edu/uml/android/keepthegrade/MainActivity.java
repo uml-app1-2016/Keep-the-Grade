@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -16,10 +17,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     // Variables for the use of database
     private DatabaseUtils dbUtils;
     private Semester currentSemester;
+    // Variables for adapter
+    private ClassAdapter mClassAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         addSemestersToDrawer("top", 0, this);
         setupDrawer();
         updateSemesterView();
+        setupAddClassButton(this);
         // Display the two menu buttons on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -179,13 +186,67 @@ public class MainActivity extends AppCompatActivity {
         @return N/A
      */
     private void updateSemesterView() {
-        TextView tv = (TextView) findViewById(R.id.current_semester_name);
-        if (currentSemester != null) {
-            tv.setText("(ID: " + currentSemester.getId() + ") " + currentSemester.getSeason()
-                + " " + currentSemester.getYear());
+        ListView classListView = (ListView) findViewById(R.id.class_list_view);
+        mClassAdapter = new ClassAdapter(this, dbUtils.getClassList(currentSemester.getId()));
+        // If we can't find any classes, say so to the user
+        if (mClassAdapter.getCount() == 0) {
+            classListView.setVisibility(View.GONE);
+            TextView empty = (TextView) findViewById(R.id.no_classes);
+            empty.setText("No classes for " + currentSemester.getSeason() + " "
+                    + currentSemester.getYear() + " semester.");
+            empty.setVisibility(View.VISIBLE);
+        // Otherwise, set the adapter for the list view
         } else {
-            tv.setText("No current semester. Please select one from the drawer.");
+            classListView.setAdapter(mClassAdapter);
         }
+    }
+
+    private void setupAddClassButton(Context context) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_class_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create a dialogue
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+                        .setCancelable(true)
+                        .setMessage("Please enter class info")
+                        .setView(currentSemester.isCompleted() ? R.layout.add_class_popup_completed : R.layout.add_class_popup)
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Just dismiss the alert
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Add the class
+                                EditText nameField = (EditText) ((AlertDialog) dialog).findViewById(R.id.name_field);
+                                String name = nameField.getText().toString();
+                                int semId = currentSemester.getId();
+                                double grade = -1;
+                                if (currentSemester.isCompleted()) {
+                                    EditText gradeField = (EditText) ((AlertDialog) dialog).findViewById(R.id.grade_field);
+                                    try {
+                                        grade = Double.parseDouble(gradeField.getText().toString());
+                                    } catch (NumberFormatException e) {
+                                        Toast.makeText(MainActivity.this, "Error: invalid input for grade.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                if (name.length() != 0 && grade >= -1) {
+                                    if (dbUtils.addClass(new Class(-1, semId, name, grade))) {
+                                        Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).create();
+                alertDialog.show();
+            }
+        });
     }
 
     /*

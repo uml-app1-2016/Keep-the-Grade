@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import edu.uml.android.keepthegrade.DatabaseContract.SemesterEntry;
 import edu.uml.android.keepthegrade.DatabaseContract.ClassEntry;
 import edu.uml.android.keepthegrade.DatabaseContract.GradeEntry;
@@ -112,6 +114,39 @@ public class DatabaseUtils {
             // There are no duplicates, so we can add it
             return true;
         }
+    }
+
+    /*
+        Return the list of classes based on current semester
+        @param currentSemesterId = the id of the semester user is viewing
+        @return list of classes
+     */
+    public ArrayList<Class> getClassList(int currentSemesterId) {
+        ArrayList<Class> classes = new ArrayList<>();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query(ClassEntry.TABLE_NAME,
+                new String[]{ClassEntry._ID, ClassEntry.COLUMN_SEM_ID, ClassEntry.COLUMN_NAME, ClassEntry.COLUMN_GRADE},
+                ClassEntry.COLUMN_SEM_ID + " = ?",
+                new String[]{Integer.toString(currentSemesterId)},
+                null, null, null);
+
+        int classIdColumnIndex = cursor.getColumnIndex(ClassEntry._ID);
+        int semIdColumnIndex = cursor.getColumnIndex(ClassEntry.COLUMN_SEM_ID);
+        int nameColumnIndex = cursor.getColumnIndex(ClassEntry.COLUMN_NAME);
+        int gradeColumnIndex = cursor.getColumnIndex(ClassEntry.COLUMN_GRADE);
+        int counter = 0;
+        while(cursor.moveToNext()) {
+            classes.add(counter, new Class(cursor.getInt(classIdColumnIndex), cursor.getInt(semIdColumnIndex),
+                    cursor.getString(nameColumnIndex), cursor.getDouble(gradeColumnIndex)));
+            counter++;
+        }
+        return classes;
+    }
+
+    public boolean addClass(Class c) {
+
+        return true;
     }
 
 }
