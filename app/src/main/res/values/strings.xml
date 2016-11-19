@@ -4,7 +4,7 @@
     <string name="drawer_close">Close semester drawer</string>
     <string name="delete_semester">Delete current semester</string>
     <string name="refresh_drawer">Refresh semester list</string>
-    <string name="delete_class">Delete current semester</string>
+    <string name="delete_class">Delete current class</string>
 
     <string name="label_name">Name</string>
     <string name="label_season">Season</string>

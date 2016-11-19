@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String mActivityTitle;
     // Variables for the use of database
     private DatabaseUtils dbUtils;
     private Semester currentSemester;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // Set up the drawer
         mDrawerList = (ListView)findViewById(R.id.semester_list);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mActivityTitle = getTitle().toString();
         // Add the semesters, and display the most recent one first.
         addSemestersToDrawer("top", 0, this);
         setupDrawer();
@@ -59,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         // Display the two menu buttons on action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSemesterView();
     }
 
     /*
@@ -131,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                                         mDrawerLayout.closeDrawers();
                                         addSemestersToDrawer(s, yI, context);
                                         setupAddClassButton(context);
+                                        updateSemesterView();
                                     } else {
                                         Toast.makeText(MainActivity.this, "Error adding semester", Toast.LENGTH_SHORT).show();
                                     }
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(mActivityTitle);
+                getSupportActionBar().setTitle(currentSemester.getSeason() + " " + currentSemester.getYear());
                 invalidateOptionsMenu();
             }
         };
@@ -189,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateSemesterView() {
         ListView classListView = (ListView) findViewById(R.id.class_list_view);
         if (currentSemester != null) {
+            getSupportActionBar().setTitle(currentSemester.getSeason() + " " + currentSemester .getYear());
             mClassAdapter = new ClassAdapter(this, dbUtils.getClassList(currentSemester.getId()));
             // If we can't find any classes, say so to the user
             if (mClassAdapter.getCount() == 0) {
@@ -210,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                         Class c = mClassAdapter.getItem(i);
                         Intent intent = new Intent(MainActivity.this, ClassActivity.class);
                         intent.putExtra("classId", c.getClassId());
+                        intent.putExtra("className", c.getName());
                         startActivity(intent);
                     }
                 });
@@ -218,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             mClassAdapter = new ClassAdapter(this, new ArrayList<Class>());
             classListView.setVisibility(View.GONE);
             TextView empty = (TextView) findViewById(R.id.no_classes);
-            empty.setText("No semesters. To add one, look in the drawer <--");
+            empty.setText("No semesters. Go add one!");
             empty.setVisibility(View.VISIBLE);
         }
     }
@@ -228,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentSemester == null) {
             fab.setVisibility(View.GONE);
         } else {
+            fab.setVisibility(View.VISIBLE);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -336,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Deleted semester!", Toast.LENGTH_SHORT).show();
                     addSemestersToDrawer("top", 0, context);
                     updateSemesterView();
+                    setupAddClassButton(context);
                 }
             });
 

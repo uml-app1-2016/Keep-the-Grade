@@ -159,4 +159,18 @@ public class DatabaseUtils {
             return false;
     }
 
+    /*
+        Delete a class from the table.
+        @param classId: The class id we want to delete.
+        @return void
+     */
+    public void deleteClass(int classId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String whereClause = ClassEntry._ID + " = ?";
+        String[] whereArgs = { Integer.toString(classId) };
+
+        db.delete(ClassEntry.TABLE_NAME, whereClause, whereArgs);
+    }
+
 }

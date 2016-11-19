@@ -57,7 +57,7 @@ public class Semester {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         // We are past the current semester
-        if (year >= this.getYear())
+        if (year > this.getYear())
             return true;
         else
             return false;
