@@ -177,7 +177,10 @@ public class MainActivity extends AppCompatActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(currentSemester.getSeason() + " " + currentSemester.getYear());
+                if (currentSemester != null)
+                    getSupportActionBar().setTitle(currentSemester.getSeason() + " " + currentSemester.getYear());
+                else
+                    getSupportActionBar().setTitle("Keep the Grade");
                 invalidateOptionsMenu();
             }
         };
@@ -254,28 +257,43 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Add the class
-                                    EditText nameField = (EditText) ((AlertDialog) dialog).findViewById(R.id.name_field);
-                                    String name = nameField.getText().toString();
-                                    int semId = currentSemester.getId();
-                                    double grade = -1;
-                                    if (currentSemester.isCompleted()) {
-                                        EditText gradeField = (EditText) ((AlertDialog) dialog).findViewById(R.id.grade_field);
-                                        try {
-                                            grade = Double.parseDouble(gradeField.getText().toString());
-                                        } catch (NumberFormatException e) {
-                                            Toast.makeText(MainActivity.this, "Error: invalid input for grade.",
+                                    try {
+                                        EditText nameField = (EditText) ((AlertDialog) dialog).findViewById(R.id.name_field);
+                                        String name = nameField.getText().toString();
+                                        int semId = currentSemester.getId(), exam = -1, quiz = -1, hw = -1, fin = -1;
+                                        double grade = -1;
+                                        if (currentSemester.isCompleted()) {
+                                            EditText gradeField = (EditText) ((AlertDialog) dialog).findViewById(R.id.grade_field);
+                                            try {
+                                                grade = Double.parseDouble(gradeField.getText().toString());
+                                            } catch (NumberFormatException e) {
+                                                Toast.makeText(MainActivity.this, "Error: invalid input for grade.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            EditText examField = (EditText) ((AlertDialog) dialog).findViewById(R.id.exam_field);
+                                            exam = Integer.parseInt(examField.getText().toString());
+                                            EditText quizField = (EditText) ((AlertDialog) dialog).findViewById(R.id.quiz_field);
+                                            quiz = Integer.parseInt(quizField.getText().toString());
+                                            EditText hwField = (EditText) ((AlertDialog) dialog).findViewById(R.id.hw_field);
+                                            hw = Integer.parseInt(hwField.getText().toString());
+                                            EditText finalField = (EditText) ((AlertDialog) dialog).findViewById(R.id.final_field);
+                                            fin = Integer.parseInt(finalField.getText().toString());
+                                        }
+                                        if (name.length() != 0 && grade >= -1) {
+                                            if ((exam + hw + quiz + fin) == 100 || currentSemester.isCompleted()) {
+                                                if (dbUtils.addClass(new Class(-1, semId, name, grade), exam, quiz, hw, fin)) {
+                                                    Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
+                                                    updateSemesterView();
+                                                }
+                                            } else {
+                                                Toast.makeText(MainActivity.this, "Weights must add up to 100.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
                                                     Toast.LENGTH_SHORT).show();
                                         }
-                                    }
-                                    if (name.length() != 0 && grade >= -1) {
-                                        if (dbUtils.addClass(new Class(-1, semId, name, grade))) {
-                                            Toast.makeText(MainActivity.this, "Added class!", Toast.LENGTH_SHORT).show();
-                                            updateSemesterView();
-                                        }
-                                    } else {
-                                        Toast.makeText(MainActivity.this, "Error: make sure all fields are entered.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
+                                    } catch (NumberFormatException e) {}
                                 }
                             }).create();
                     alertDialog.show();

@@ -2,6 +2,7 @@ package edu.uml.android.keepthegrade;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,12 @@ import android.widget.ListView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tim on 11/15/2016.
@@ -29,6 +35,7 @@ public class ClassActivity extends AppCompatActivity {
     private CategoryAdapter adapter;
     private int mClassId;
     private String mClassName;
+    private ArrayList<Grade> mExamList, mQuizList, mHwList, mFinalList;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -43,6 +50,9 @@ public class ClassActivity extends AppCompatActivity {
 
         // Set the titlebar
         getSupportActionBar().setTitle(mClassName);
+
+        // Get the list of all the grades based on types
+        updateGrades();
 
         /* WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.loadUrl("http://chart.apis.google.com/chart?\n" +
@@ -73,6 +83,13 @@ public class ClassActivity extends AppCompatActivity {
         //      by calling onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // We will want to refresh the layout here
+        updateGrades();
     }
 
     /*
@@ -121,6 +138,25 @@ public class ClassActivity extends AppCompatActivity {
             return true;
         }
 
+        // User wants to add a grade
+        if (id == R.id.action_add_grade) {
+            Intent intent = new Intent(ClassActivity.this, AddGradeActivity.class);
+            intent.putExtra("className", mClassName);
+            intent.putExtra("classId", mClassId);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    /*
+        Update the grades based on the database
+     */
+    public void updateGrades() {
+        dbUtils.updateClassGrade(mClassId);
+        mExamList = dbUtils.getExamGradesList(mClassId);
+        mQuizList = dbUtils.getQuizGradesList(mClassId);
+        mHwList = dbUtils.getHwGradesList(mClassId);
+        mFinalList = dbUtils.getFinalGradesList(mClassId);
     }
 }

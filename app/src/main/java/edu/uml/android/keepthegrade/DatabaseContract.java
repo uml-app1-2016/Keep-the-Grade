@@ -41,4 +41,13 @@ public final class DatabaseContract {
         public static final int TYPE_FINAL = 3;
     }
 
+    public static final class Weights {
+        public static final String TABLE_NAME = "Weights";
+        public static final String COLUMN_CLASS_ID = "class_id";
+        public static final String COLUMN_EXAM = "exam";
+        public static final String COLUMN_QUIZ = "quiz";
+        public static final String COLUMN_HW = "homework";
+        public static final String COLUMN_FINAL = "final";
+    }
+
 }
