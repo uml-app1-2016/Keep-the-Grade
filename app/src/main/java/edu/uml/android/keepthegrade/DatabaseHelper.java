@@ -6,11 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import edu.uml.android.keepthegrade.DatabaseContract.SemesterEntry;
 import edu.uml.android.keepthegrade.DatabaseContract.ClassEntry;
 import edu.uml.android.keepthegrade.DatabaseContract.GradeEntry;
+import edu.uml.android.keepthegrade.DatabaseContract.Weights;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "keepthegrade.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "ktg.db";
+    private static final int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,10 +34,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + GradeEntry.COLUMN_DATE + " DATE, "
                 + GradeEntry.COLUMN_TYPE + " INTEGER, "
                 + GradeEntry.COLUMN_GRADE + " FLOAT);";
+        String SQL_CREATE_WEIGHTS_TABLE = "CREATE TABLE " + Weights.TABLE_NAME + " ("
+                + Weights.COLUMN_CLASS_ID + " INTEGER NOT NULL, "
+                + Weights.COLUMN_EXAM + " INTEGER, "
+                + Weights.COLUMN_QUIZ + " INTEGER, "
+                + Weights.COLUMN_HW + " INTEGER, "
+                + Weights.COLUMN_FINAL + " INTEGER);";
 
         db.execSQL(SQL_CREATE_SEMESTER_TABLE);
         db.execSQL(SQL_CREATE_CLASS_TABLE);
         db.execSQL(SQL_CREATE_GRADE_TABLE);
+        db.execSQL(SQL_CREATE_WEIGHTS_TABLE);
     }
 
     @Override
