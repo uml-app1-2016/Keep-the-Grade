@@ -172,9 +172,21 @@ public class ClassActivity extends AppCompatActivity {
         mHwAdapter = new GradeAdapter(this, mHwList);
         mFinalAdapter = new GradeAdapter(this, mFinalList);
         // Empty array list for if they are empty
+        ArrayList<Grade> empty = new ArrayList<Grade>();
+        empty.add(new Grade("(Empty)", null, 0, "", 0));
+        GradeAdapter emptyAdapter = new GradeAdapter(this, empty);
+
+        // Check to see if each is empty
+        if (mExamList.isEmpty())
+            mExamAdapter = emptyAdapter;
+        if (mQuizList.isEmpty())
+            mQuizAdapter = emptyAdapter;
+        if (mHwList.isEmpty())
+            mHwAdapter = emptyAdapter;
+        if (mFinalList.isEmpty())
+            mFinalAdapter = emptyAdapter;
+
+        // Now set the adapter
         
-
-        // Check to see if each is empty, otherwize display
-
     }
 }
