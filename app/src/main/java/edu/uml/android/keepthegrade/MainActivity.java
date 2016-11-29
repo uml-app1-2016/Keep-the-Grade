@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     // Variables for the use of database
     private DatabaseUtils dbUtils;
-    private Semester currentSemester;
+    private Semester currentSemester = null;
     // Variables for adapter
     private ClassAdapter mClassAdapter;
 

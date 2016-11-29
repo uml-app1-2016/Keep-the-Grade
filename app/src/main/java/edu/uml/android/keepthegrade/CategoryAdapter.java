@@ -43,7 +43,21 @@ public class CategoryAdapter extends FragmentPagerAdapter {
             return chartFragments.get(position);
         }
 
-        Chart c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88));
+        Chart c = null;
+
+        if(position == 0) {          //All
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+        }else if(position == 1) {    //Exams
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 100, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+        }else if(position == 2) {     //HW
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(100, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+        }else if(position == 3) {     //Quizzes
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 100), Arrays.asList("A", "B", "C", "D", "E"));
+        }else if(position == 4) {     //Final
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(100, 100, 100, 100, 50), Arrays.asList("A", "B", "C", "D", "E"));
+        }
+
+//        Chart c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88));
 
         ChartFragment f = new ChartFragment();
         f.setChart(c);
