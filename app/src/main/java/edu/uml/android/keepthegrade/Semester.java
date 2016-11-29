@@ -13,6 +13,7 @@ public class Semester {
     private int year;
 
     public Semester(int i, int s, int y) {
+        
         id = i;
         switch (s) {
             case 0:
