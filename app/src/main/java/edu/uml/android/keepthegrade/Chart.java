@@ -30,14 +30,14 @@ public class Chart {
      *
      */
 
-    public Chart(String chartTitle, List<Integer> grades) {
+    public Chart(String chartTitle, List<Integer> grades, List<String> names) {
         mChartTitle = chartTitle;
-        setGrades(grades);
+        setGrades(grades, names);
 //        if(imageURI != null) {mImageURI = Uri.parse(imageURI);}
     }
 
     /** Set a new group of grades */
-    public void setGrades(List<Integer> grades) {
+    public void setGrades(List<Integer> grades, List<String> names) {
         scores.clear();
         scores.addAll(grades);
 
@@ -47,6 +47,14 @@ public class Chart {
             sb.append(i);
             sb.append(",");
         }
+
+        // Turn array of names into comma-separated list for URI
+        StringBuilder nb = new StringBuilder();
+        for (int i = 0; i < names.size(); i++) {
+            nb.append(i);
+            nb.append("|");
+        }
+
         // Remove last comma delimiter with setLength.
         sb.setLength(sb.length() - 1);
 
@@ -54,11 +62,12 @@ public class Chart {
         // https://developers.google.com/chart/image/docs/chart_params#axis-styles-and-labels-line------bar-google-o-meter-radar-scatter
         mImageURI = Uri.parse(
                 "http://chart.apis.google.com/chart?"
-                        + "chs=200x200&"
+                        + "chs=400x400&"
                         + "chdlp=b&"
                         + "chtt=" + mChartTitle + "&"
-                        + "cht=bvs&"
+                        + "cht=lc&"
                         + "chxt=x,y&"
+                        + "chxl=0:|" + nb.toString() + "&"
 //                        + "chxr=0,1," + grades.size() + ",1&"
 //                        + "chco=FF0000,00FF00,0000FF"
                         + "chd=t:" + sb.toString()
