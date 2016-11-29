@@ -64,7 +64,7 @@
 
         <EditText
             android:id="@+id/grade_field"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:maxLength="3"/>
