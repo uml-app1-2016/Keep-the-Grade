@@ -36,6 +36,7 @@ public class ClassActivity extends AppCompatActivity {
     private int mClassId;
     private String mClassName;
     private ArrayList<Grade> mExamList, mQuizList, mHwList, mFinalList;
+    private GradeAdapter mExamAdapter, mQuizAdapter, mHwAdapter, mFinalAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -51,8 +52,9 @@ public class ClassActivity extends AppCompatActivity {
         // Set the titlebar
         getSupportActionBar().setTitle(mClassName);
 
-        // Get the list of all the grades based on types
+        // Get the list of all the grades based on types and set them into the listViews
         updateGrades();
+        updateListView();
 
         /* WebView myWebView = (WebView) findViewById(R.id.webview);
         myWebView.loadUrl("http://chart.apis.google.com/chart?\n" +
@@ -158,5 +160,21 @@ public class ClassActivity extends AppCompatActivity {
         mQuizList = dbUtils.getQuizGradesList(mClassId);
         mHwList = dbUtils.getHwGradesList(mClassId);
         mFinalList = dbUtils.getFinalGradesList(mClassId);
+    }
+
+    /*
+        Make sure the ListViews for each category are updated.
+     */
+    public void updateListView() {
+        // Set up the adapters
+        mExamAdapter = new GradeAdapter(this, mExamList);
+        mQuizAdapter = new GradeAdapter(this, mQuizList);
+        mHwAdapter = new GradeAdapter(this, mHwList);
+        mFinalAdapter = new GradeAdapter(this, mFinalList);
+        // Empty array list for if they are empty
+        
+
+        // Check to see if each is empty, otherwize display
+
     }
 }
