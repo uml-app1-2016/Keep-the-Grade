@@ -75,4 +75,13 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return titles.get(position);
     }
+
+    public ArrayList getGradeFromList(ArrayList<Grade> g) {
+        ArrayList grades = null;
+
+        for(int i = 0; i < g.size(); i++){
+            //grades.append(g.getItem(i).getGrade());
+        }
+        return grades;
+    }
 }
