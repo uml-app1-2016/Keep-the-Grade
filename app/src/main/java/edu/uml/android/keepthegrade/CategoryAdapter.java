@@ -16,6 +16,8 @@ public class CategoryAdapter extends FragmentPagerAdapter {
 
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<ChartFragment> chartFragments = new ArrayList<ChartFragment>();
+    private int mClassID;
+    private Context mC;
 
     /**
      * Create a new {@link CategoryAdapter} object.
@@ -24,8 +26,10 @@ public class CategoryAdapter extends FragmentPagerAdapter {
      * @param fm is the fragment manager that will keep each fragment's state in the adapter
      *           across swipes.
      */
-    public CategoryAdapter(Context context, FragmentManager fm) {
+    public CategoryAdapter(Context context, FragmentManager fm, int classID) {
         super(fm);
+        mClassID = classID;
+        mC = context;
 
         Collections.addAll(titles, context.getResources().getStringArray(R.array.chart_titles));
 
@@ -44,11 +48,13 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         }
 
         Chart c = null;
+        DatabaseUtils d = new DatabaseUtils(mC);
 
         if(position == 0) {          //All
             c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
         }else if(position == 1) {    //Exams
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 100, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getExamGradesList(mClassID)), Arrays.asList("A", "B", "C", "D", "E"));
+            //c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 100, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
         }else if(position == 2) {     //HW
             c = new Chart(getPageTitle(position).toString(), Arrays.asList(100, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
         }else if(position == 3) {     //Quizzes
@@ -77,10 +83,19 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     }
 
     public ArrayList getGradeFromList(ArrayList<Grade> g) {
+        ArrayList grades = new ArrayList();
+
+        for(int i = 0; i < g.size(); i++){
+            grades.add(g.get(i).getGrade());
+        }
+        return grades;
+    }
+
+    public ArrayList getNameFromList(ArrayList<Grade> g) {
         ArrayList grades = null;
 
         for(int i = 0; i < g.size(); i++){
-            //grades.append(g.getItem(i).getGrade());
+            grades.add(g.get(i).getName());
         }
         return grades;
     }
