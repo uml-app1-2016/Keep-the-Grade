@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.TabLayout;
@@ -235,6 +236,25 @@ public class ClassActivity extends AppCompatActivity {
         quizList.setAdapter(mQuizAdapter);
         hwList.setAdapter(mHwAdapter);
         finalList.setAdapter(mFinalAdapter);
+
+        // Set the size of the list
+        ViewGroup.LayoutParams paramsExam = examList.getLayoutParams();
+        paramsExam.height = mExamAdapter.getCount() * R.dimen.grade_item_height;
+        examList.setLayoutParams(paramsExam);
+        examList.requestLayout();
+        ViewGroup.LayoutParams paramsQuiz = quizList.getLayoutParams();
+        paramsQuiz.height = mQuizAdapter.getCount() * R.dimen.grade_item_height;
+        quizList.setLayoutParams(paramsQuiz);
+        quizList.requestLayout();
+        ViewGroup.LayoutParams paramsHw = hwList.getLayoutParams();
+        paramsHw.height = mHwAdapter.getCount() * R.dimen.grade_item_height;
+        hwList.setLayoutParams(paramsHw);
+        hwList.requestLayout();
+        ViewGroup.LayoutParams paramsFinal = finalList.getLayoutParams();
+        paramsFinal.height = mFinalAdapter.getCount() * R.dimen.grade_item_height;
+        finalList.setLayoutParams(paramsFinal);
+        finalList.requestLayout();
+
     }
 
     /*
