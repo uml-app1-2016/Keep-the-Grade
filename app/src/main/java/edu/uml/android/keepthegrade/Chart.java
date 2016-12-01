@@ -43,7 +43,7 @@ public class Chart {
 
         // Turn array of grades into comma-separated list for URI
         StringBuilder sb = new StringBuilder();
-        for (int i : grades) {
+        for (int i = 0; i < grades.size(); i++) {
             sb.append(i);
             sb.append(",");
         }
