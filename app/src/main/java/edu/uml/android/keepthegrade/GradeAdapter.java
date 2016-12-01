@@ -22,20 +22,20 @@ public class GradeAdapter extends ArrayAdapter<Grade> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Make sure the view hasn't been used yet, if not, inflate it
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.grade_item, parent, false);
-        }
+        View listItemView = LayoutInflater.from(getContext()).inflate(
+                R.layout.grade_item, parent, false);
 
         // Current grade object
         Grade currentGrade = getItem(position);
 
         // Set the TextViews to contain the right stuff
-        TextView nameView = (TextView) listItemView.findViewById(R.id.grade_field);
+        TextView nameView = (TextView) listItemView.findViewById(R.id.grade_name);
         nameView.setText(currentGrade.getName());
-        TextView gradeView = (TextView) listItemView.findViewById(R.id.name_field);
-        gradeView.setText(currentGrade.getGrade() + "%");
+        TextView gradeView = (TextView) listItemView.findViewById(R.id.grade_grade);
+        if (!currentGrade.getName().equals("(Empty)"))
+            gradeView.setText(currentGrade.getGrade() + "%");
+        else
+            gradeView.setText("");
 
         return listItemView;
     }

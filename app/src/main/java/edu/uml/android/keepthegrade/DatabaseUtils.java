@@ -400,9 +400,38 @@ public class DatabaseUtils {
     }
 
     /*
+        Delete a grade
+     */
+    public void deleteGrade(Grade g) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int type = 0;
+        if (g.getType().equals("Exam"))
+            type = GradeEntry.TYPE_EXAM;
+        if (g.getType().equals("Quiz"))
+            type = GradeEntry.TYPE_QUIZ;
+        if (g.getType().equals("Hw"))
+            type = GradeEntry.TYPE_HW;
+        if (g.getType().equals("Final"))
+            type = GradeEntry.TYPE_FINAL;
+
+        String whereClause = GradeEntry.COLUMN_NAME + " = ? AND "
+                + GradeEntry.COLUMN_CLASS_ID + " = ? AND "
+                + GradeEntry.COLUMN_GRADE + " = ? AND "
+                + GradeEntry.COLUMN_TYPE + " = ?";
+        String[] whereArgs = {
+                g.getName(),
+                Integer.toString(g.getId()),
+                Double.toString(g.getGrade()),
+                Integer.toString(type)
+        };
+        db.delete(GradeEntry.TABLE_NAME, whereClause, whereArgs);
+    }
+
+    /*
         Update the class grade based on the Grades and Weights table.
      */
-    public void updateClassGrade(int classId) {
+    public double updateClassGrade(int classId) {
         SQLiteDatabase readDb = dbHelper.getReadableDatabase();
         SQLiteDatabase writeDb = dbHelper.getWritableDatabase();
         double examWeight = 0, quizWeight = 0, hwWeight = 0, finalWeight = 0;
@@ -471,16 +500,18 @@ public class DatabaseUtils {
         finalGrade = examTotal + quizTotal + hwTotal + finalTotal;
         totalWeight /= 100;
         finalGrade /= totalWeight;
+        finalGrade = Math.round(finalGrade * 100) / 100;
         cursor.close();
 
         // Update the database now
         Log.e("WOWOWOWOWOWO", Double.toString(finalGrade));
-        if (Double.isNaN(finalGrade)) return;
+        if (Double.isNaN(finalGrade)) return -1;
         String whereClause = ClassEntry._ID + " = ?";
         String[] whereArgs = { Integer.toString(classId) };
         ContentValues values = new ContentValues();
         values.put(ClassEntry.COLUMN_GRADE, finalGrade);
         writeDb.update(ClassEntry.TABLE_NAME, values, whereClause, whereArgs);
+        return finalGrade;
     }
 
 }

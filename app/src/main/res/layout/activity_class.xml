@@ -8,7 +8,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorBackground">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,13 +45,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/grade_list_padding">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="7"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:paddingLeft="8dp"
                 android:text="@string/grade_total"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"/>
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textSize="20sp"
-                android:text="A"/>
+                android:gravity="right"/>
         </LinearLayout>
 
         <!-- Exam Grades -->
@@ -80,10 +80,11 @@
         </LinearLayout>
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/exam_list">
+            android:id="@+id/exam_list"
+            android:padding="@dimen/grade_list_padding">
         </ListView>
 
         <!-- Quiz Grades -->
@@ -103,10 +104,11 @@
         </LinearLayout>
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/quiz_list">
+            android:id="@+id/quiz_list"
+            android:padding="@dimen/grade_list_padding">
         </ListView>
 
         <!-- HW Grades -->
@@ -126,10 +128,11 @@
         </LinearLayout>
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/hw_list">
+            android:id="@+id/hw_list"
+            android:padding="@dimen/grade_list_padding">
         </ListView>
 
         <!-- Final Grade -->
@@ -149,10 +152,11 @@
         </LinearLayout>
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/final_list">
+            android:id="@+id/final_list"
+            android:padding="@dimen/grade_list_padding">
         </ListView>
     </LinearLayout>
 </ScrollView>

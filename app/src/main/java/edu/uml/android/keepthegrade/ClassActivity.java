@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -92,6 +93,7 @@ public class ClassActivity extends AppCompatActivity {
         super.onResume();
         // We will want to refresh the layout here
         updateGrades();
+        updateListView();
     }
 
     /*
@@ -155,11 +157,15 @@ public class ClassActivity extends AppCompatActivity {
         Update the grades based on the database
      */
     public void updateGrades() {
-        dbUtils.updateClassGrade(mClassId);
+        double finalGrade = dbUtils.updateClassGrade(mClassId);
         mExamList = dbUtils.getExamGradesList(mClassId);
         mQuizList = dbUtils.getQuizGradesList(mClassId);
         mHwList = dbUtils.getHwGradesList(mClassId);
         mFinalList = dbUtils.getFinalGradesList(mClassId);
+
+        // Set the text view of total grade
+        TextView grade = (TextView) findViewById(R.id.currentGrade);
+        grade.setText(Double.toString(finalGrade) + "%");
     }
 
     /*
@@ -176,17 +182,88 @@ public class ClassActivity extends AppCompatActivity {
         empty.add(new Grade("(Empty)", null, 0, "", 0));
         GradeAdapter emptyAdapter = new GradeAdapter(this, empty);
 
+        // Get the listviews
+        ListView examList = (ListView) findViewById(R.id.exam_list);
+        ListView quizList = (ListView) findViewById(R.id.quiz_list);
+        ListView hwList = (ListView) findViewById(R.id.hw_list);
+        ListView finalList = (ListView) findViewById(R.id.final_list);
+
         // Check to see if each is empty
-        if (mExamList.isEmpty())
+        if (mExamList.isEmpty()) {
             mExamAdapter = emptyAdapter;
-        if (mQuizList.isEmpty())
+        } else {
+            examList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    createDeleteGradePopup(mExamAdapter.getItem(i));
+                }
+            });
+        }
+        if (mQuizList.isEmpty()) {
             mQuizAdapter = emptyAdapter;
-        if (mHwList.isEmpty())
+        } else {
+            quizList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    createDeleteGradePopup(mQuizAdapter.getItem(i));
+                }
+            });
+        }
+        if (mHwList.isEmpty()) {
             mHwAdapter = emptyAdapter;
-        if (mFinalList.isEmpty())
+        } else {
+            hwList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    createDeleteGradePopup(mHwAdapter.getItem(i));
+                }
+            });
+        }
+        if (mFinalList.isEmpty()) {
             mFinalAdapter = emptyAdapter;
+        } else {
+            finalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    createDeleteGradePopup(mFinalAdapter.getItem(i));
+                }
+            });
+        }
 
         // Now set the adapter
-        
+        examList.setAdapter(mExamAdapter);
+        quizList.setAdapter(mQuizAdapter);
+        hwList.setAdapter(mHwAdapter);
+        finalList.setAdapter(mFinalAdapter);
+    }
+
+    /*
+        Create a popup to delete a grade
+     */
+    public void createDeleteGradePopup(final Grade g) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        // Set up the alert dialog
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setMessage("Are you sure you want to delete " + g.getName() + "?");
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Just dismiss the alert
+                dialogInterface.dismiss();
+            }
+        });
+        alertDialogBuilder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Delete the semester
+                dbUtils.deleteGrade(g);
+                Toast.makeText(ClassActivity.this, "Deleted " + g.getName() + "!", Toast.LENGTH_SHORT).show();
+                updateGrades();
+                updateListView();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();// show it
+        alertDialog.show();
     }
 }
