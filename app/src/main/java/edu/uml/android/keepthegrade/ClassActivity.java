@@ -239,19 +239,19 @@ public class ClassActivity extends AppCompatActivity {
 
         // Set the size of the list
         ViewGroup.LayoutParams paramsExam = examList.getLayoutParams();
-        paramsExam.height = mExamAdapter.getCount() * R.dimen.grade_item_height;
+        paramsExam.height = mExamAdapter.getCount() * 160;
         examList.setLayoutParams(paramsExam);
         examList.requestLayout();
         ViewGroup.LayoutParams paramsQuiz = quizList.getLayoutParams();
-        paramsQuiz.height = mQuizAdapter.getCount() * R.dimen.grade_item_height;
+        paramsQuiz.height = mQuizAdapter.getCount() * 160;
         quizList.setLayoutParams(paramsQuiz);
         quizList.requestLayout();
         ViewGroup.LayoutParams paramsHw = hwList.getLayoutParams();
-        paramsHw.height = mHwAdapter.getCount() * R.dimen.grade_item_height;
+        paramsHw.height = mHwAdapter.getCount() * 160;
         hwList.setLayoutParams(paramsHw);
         hwList.requestLayout();
         ViewGroup.LayoutParams paramsFinal = finalList.getLayoutParams();
-        paramsFinal.height = mFinalAdapter.getCount() * R.dimen.grade_item_height;
+        paramsFinal.height = mFinalAdapter.getCount() * 160;
         finalList.setLayoutParams(paramsFinal);
         finalList.requestLayout();
 

@@ -56,7 +56,11 @@ public class Chart {
         }
 
         // Remove last comma delimiter with setLength.
-        sb.setLength(sb.length() - 1);
+        try {
+            sb.setLength(sb.length() - 1);
+        } catch (StringIndexOutOfBoundsException e) {
+            sb.setLength(0);
+        }
 
         //TODO Explore other options like axes labels
         // https://developers.google.com/chart/image/docs/chart_params#axis-styles-and-labels-line------bar-google-o-meter-radar-scatter
