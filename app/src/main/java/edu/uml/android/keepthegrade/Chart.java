@@ -69,16 +69,14 @@ public class Chart {
         Log.i(this.getClass().getSimpleName(), "INFO: " + nb.toString());
         mImageURI = Uri.parse(
                 "http://chart.apis.google.com/chart?"
-                        + "chs=400x400&"
-                        + "chdlp=b&"
-                        + "chtt=" + mChartTitle + "&"
-                        + "chbh=r,0.5,1.5&"
-                        + "cht=bvs&"
-                        + "chxt=x,y&"
-                        + "chxl=0:|" + nb.toString() + "&"
-//                        + "chxr=0,1," + grades.size() + ",1&"
-//                        + "chco=FF0000,00FF00,0000FF"
-                        + "chd=t:" + sb.toString()
+                        + "chs=400x400&"                            // Chart size
+                        + "chdlp=b&"                                // Chart legend position = bottom
+                        + "chtt=" + mChartTitle + "&"               // Chart title
+                        + "chbh=r,0.5,1.5&"                         // Chart scaling
+                        + "cht=bvs&"                                // Chart type
+                        + "chxt=x,y&"                               // Chart axis
+                        + "chxl=0:|" + nb.toString() + "&"          // Chart data grades
+                        + "chd=t:" + sb.toString()                  // Chart data names
         );
     }
 
