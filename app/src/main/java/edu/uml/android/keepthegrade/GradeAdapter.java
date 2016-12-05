@@ -22,8 +22,11 @@ public class GradeAdapter extends ArrayAdapter<Grade> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Make sure the view hasn't been used yet, if not, inflate it
-        View listItemView = LayoutInflater.from(getContext()).inflate(
-                R.layout.grade_item, parent, false);
+        View listItemView = convertView;
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.grade_item, parent, false);
+        }
 
         // Current grade object
         Grade currentGrade = getItem(position);

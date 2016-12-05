@@ -24,4 +24,6 @@
     <string name="grade_quiz">Quiz Grades</string>
     <string name="grade_hw">HW Grades</string>
     <string name="grade_final_exam">Final Exam Grade</string>
+
+    <string name="grade_item_height">20</string>
 </resources>

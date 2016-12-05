@@ -32,7 +32,7 @@ public class AddGradeActivity extends AppCompatActivity {
 
         // Have the layout display the class you're adding it to
         TextView classToAdd = (TextView) findViewById(R.id.class_to_add_to);
-        classToAdd.setText("You're adding a class to " + mClassName);
+        classToAdd.setText("You're adding a grade to " + mClassName);
 
         // Set up an on click listener for the burron
         Button addButton = (Button) findViewById(R.id.add_button);

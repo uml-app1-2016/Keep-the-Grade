@@ -5,5 +5,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="grade_list_padding">10dp</dimen>
-    <dimen name="grade_item_height">35dp</dimen>
+    <dimen name="grade_item_height">125sp</dimen>
 </resources>
