@@ -51,16 +51,16 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         DatabaseUtils d = new DatabaseUtils(mC);
 
         if(position == 0) {          //All
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85.0, 92.0, 76.0, 100.0, 88.0), Arrays.asList("A", "B", "C", "D", "E"));
         }else if(position == 1) {    //Exams
-            c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getExamGradesList(mClassID)), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getExamGradesList(mClassID)), getNameFromList(d.getExamGradesList(mClassID)));
             //c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 100, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
         }else if(position == 2) {     //HW
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(100, 92, 76, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getHwGradesList(mClassID)), getNameFromList(d.getHwGradesList(mClassID)));
         }else if(position == 3) {     //Quizzes
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 100), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(),getGradeFromList(d.getQuizGradesList(mClassID)), getNameFromList(d.getQuizGradesList(mClassID)));
         }else if(position == 4) {     //Final
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(100, 100, 100, 100, 50), Arrays.asList("A", "B", "C", "D", "E"));
+            c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getFinalGradesList(mClassID)), getNameFromList(d.getFinalGradesList(mClassID)));
         }
 
 //        Chart c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 76, 100, 88));
@@ -92,7 +92,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     }
 
     public ArrayList getNameFromList(ArrayList<Grade> g) {
-        ArrayList grades = null;
+        ArrayList grades = new ArrayList();
 
         for(int i = 0; i < g.size(); i++){
             grades.add(g.get(i).getName());

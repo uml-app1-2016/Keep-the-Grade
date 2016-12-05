@@ -1,6 +1,7 @@
 package edu.uml.android.keepthegrade;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Chart {
     private String mChartTitle = null;
 
     /** Scores for the grades shown in this chart */
-    ArrayList<Integer> scores = new ArrayList<>();
+    ArrayList<Double> scores = new ArrayList<>();
 
     /** Image URI for the chart */
     private Uri mImageURI = null;
@@ -30,28 +31,29 @@ public class Chart {
      *
      */
 
-    public Chart(String chartTitle, List<Integer> grades, List<String> names) {
+    public Chart(String chartTitle, List<Double> grades, List<String> names) {
         mChartTitle = chartTitle;
         setGrades(grades, names);
 //        if(imageURI != null) {mImageURI = Uri.parse(imageURI);}
     }
 
     /** Set a new group of grades */
-    public void setGrades(List<Integer> grades, List<String> names) {
+    public void setGrades(List<Double> grades, List<String> names) {
         scores.clear();
         scores.addAll(grades);
 
         // Turn array of grades into comma-separated list for URI
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < grades.size(); i++) {
+        for (double i : grades) {
             sb.append(i);
             sb.append(",");
         }
 
-        // Turn array of names into comma-separated list for URI
+        // Turn array of names into bar-separated list for URI
+        //|Exam 1
         StringBuilder nb = new StringBuilder();
-        for (int i = 0; i < names.size(); i++) {
-            nb.append(i);
+        for (String j : names) {
+            nb.append(j.replaceAll(" ", "_"));
             nb.append("|");
         }
 
@@ -64,6 +66,7 @@ public class Chart {
 
         //TODO Explore other options like axes labels
         // https://developers.google.com/chart/image/docs/chart_params#axis-styles-and-labels-line------bar-google-o-meter-radar-scatter
+        Log.i(this.getClass().getSimpleName(), "INFO: " + nb.toString());
         mImageURI = Uri.parse(
                 "http://chart.apis.google.com/chart?"
                         + "chs=400x400&"
