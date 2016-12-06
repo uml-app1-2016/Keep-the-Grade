@@ -35,8 +35,8 @@ public class ClassActivity extends AppCompatActivity {
     // variables I might need
     private DatabaseUtils dbUtils;
     private CategoryAdapter adapter;
-    private int mClassId;
-    private String mClassName;
+    private int mClassId, mClassYear;
+    private String mClassName, mClassSeason;
     private ArrayList<Grade> mExamList, mQuizList, mHwList, mFinalList;
     private GradeAdapter mExamAdapter, mQuizAdapter, mHwAdapter, mFinalAdapter;
 
@@ -50,6 +50,8 @@ public class ClassActivity extends AppCompatActivity {
         // Set up private variables
         mClassName = getIntent().getStringExtra("className");
         mClassId = getIntent().getIntExtra("classId", 0);
+        mClassSeason = getIntent().getStringExtra("classSeason");
+        mClassYear = getIntent().getIntExtra("classYear", 0);
 
         // Set the titlebar
         getSupportActionBar().setTitle(mClassName);
@@ -149,6 +151,12 @@ public class ClassActivity extends AppCompatActivity {
             intent.putExtra("className", mClassName);
             intent.putExtra("classId", mClassId);
             startActivity(intent);
+        }
+
+        // Back button pressed
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -285,5 +293,20 @@ public class ClassActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();// show it
         alertDialog.show();
+    }
+
+    /*
+        Override the back button so we can send the data the parent needs to load the previous
+        semester we were just on.
+     */
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("season", mClassSeason);
+        data.putExtra("year", mClassYear);
+        // Activity finished ok, return the data
+        setResult(RESULT_OK, data);
+        finish();
+        super.onBackPressed();
     }
 }

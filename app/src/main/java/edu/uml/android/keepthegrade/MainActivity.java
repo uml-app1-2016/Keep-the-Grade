@@ -50,7 +50,10 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView)findViewById(R.id.semester_list);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         // Add the semesters, and display the most recent one first.
-        addSemestersToDrawer("top", 0, this);
+        if (currentSemester == null)
+            addSemestersToDrawer("top", 0, this);
+        else
+            addSemestersToDrawer(currentSemester.getSeason(), currentSemester.getYear(), this);
         setupDrawer();
         updateSemesterView();
         setupAddClassButton(this);
@@ -78,13 +81,17 @@ public class MainActivity extends AppCompatActivity {
         Semester[] semesters = dbUtils.getSemesterList();
         String[] semestersArray = new String[semesters.length + 1];
         // Do we want to set the current semester to the top element?
-        if (semesters.length != 0 && season.equals("top"))
+        if (semesters.length != 0 && season.equals("top")) {
             currentSemester = semesters[0];
+            Log.e("____________", "CALLED BAD");
+        }
         for (int i = 0; i < semesters.length; i++) {
             semestersArray[i] = semesters[i].getSeason() + " " + semesters[i].getYear();
             // Make sure if this is the element we want displayed on top
-            if (semesters[i].getSeason().equals(season) && semesters[i].getYear() == year)
+            if (semesters[i].getSeason().equals(season) && semesters[i].getYear() == year) {
                 currentSemester = semesters[i];
+                Log.e("____________", "CALLED");
+            }
         }
         // Add the add new semester button
         semestersArray[semesters.length] = "   + Add new semester";
@@ -220,7 +227,9 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, ClassActivity.class);
                         intent.putExtra("classId", c.getClassId());
                         intent.putExtra("className", c.getName());
-                        startActivity(intent);
+                        intent.putExtra("classSeason", currentSemester.getSeason());
+                        intent.putExtra("classYear", currentSemester.getYear());
+                        startActivityForResult(intent, 1);
                     }
                 });
             }
@@ -377,5 +386,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /*
+        When we return from a child activity, make sure the semester we were viewing
+        previously is displayed
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("___________", "HERE");
+        if (resultCode == RESULT_OK) {
+            if (data.hasExtra("season") && data.hasExtra("year")) {
+                addSemestersToDrawer(data.getStringExtra("season"), data.getIntExtra("year", 0), this);
+            }
+        }
     }
 }
