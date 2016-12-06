@@ -59,36 +59,7 @@ public class ClassActivity extends AppCompatActivity {
         // Get the list of all the grades based on types and set them into the listViews
         updateGrades();
         updateListView();
-
-        /* WebView myWebView = (WebView) findViewById(R.id.webview);
-        myWebView.loadUrl("http://chart.apis.google.com/chart?\n" +
-                "chs=200x200\n" +
-                "&chdlp=b\n" +
-                "&chtt=Uberman\n" +
-                "&chdl=Asleep|Awake\n" +
-                "&chd=t:1,11,1,11,1,11,1,11,1,11,1,11\n" +
-                "&cht=p\n" +
-                "&chco=586F8E,7D858F,586F8E,7D858F,586F8E,7D858F,586F8E,7D858F,586F8E,7D858F,586F8E,7D858F"); */
-
-        // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        // Create an adapter that knows which fragment should be shown on each page
-        adapter = new CategoryAdapter(this, getSupportFragmentManager(), mClassId);
-
-        // Set the adapter onto the view pager
-        viewPager.setAdapter(adapter);
-
-        // Find the tab layout that shows the tabs
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        // Connect the tab layout with the view pager. This will
-        //   1. Update the tab layout when the view pager is swiped
-        //   2. Update the view pager when a tab is selected
-        //   3. Set the tab layout's tab names with the view pager's adapter's titles
-        //      by calling onPageTitle()
-        tabLayout.setupWithViewPager(viewPager);
-
+        setupCharts();
     }
 
     @Override
@@ -97,6 +68,7 @@ public class ClassActivity extends AppCompatActivity {
         // We will want to refresh the layout here
         updateGrades();
         updateListView();
+        setupCharts();
     }
 
     /*
@@ -295,6 +267,27 @@ public class ClassActivity extends AppCompatActivity {
         }
     }
 
+    public void setupCharts() {
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        // Create an adapter that knows which fragment should be shown on each page
+        adapter = new CategoryAdapter(this, getSupportFragmentManager(), mClassId);
+
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+
+        // Find the tab layout that shows the tabs
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        // Connect the tab layout with the view pager. This will
+        //   1. Update the tab layout when the view pager is swiped
+        //   2. Update the view pager when a tab is selected
+        //   3. Set the tab layout's tab names with the view pager's adapter's titles
+        //      by calling onPageTitle()
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
     /*
         Create a popup to delete a grade
      */
@@ -318,6 +311,7 @@ public class ClassActivity extends AppCompatActivity {
                 Toast.makeText(ClassActivity.this, "Deleted " + g.getName() + "!", Toast.LENGTH_SHORT).show();
                 updateGrades();
                 updateListView();
+                setupCharts();
             }
         });
 
