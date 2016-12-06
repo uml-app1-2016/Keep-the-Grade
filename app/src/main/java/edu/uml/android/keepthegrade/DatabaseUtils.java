@@ -507,6 +507,10 @@ public class DatabaseUtils {
         finalGrade = Math.round(finalGrade * 100) / 100;
         cursor.close();
 
+        // If there are no grades entered, the finalGrade is -1.
+        if (examList.isEmpty() && quizList.isEmpty() && hwList.isEmpty() && finalList.isEmpty())
+            finalGrade = -1;
+
         // Update the database now
         if (Double.isNaN(finalGrade)) return -1;
         String whereClause = ClassEntry._ID + " = ?";

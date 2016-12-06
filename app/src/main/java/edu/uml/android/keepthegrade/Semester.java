@@ -57,11 +57,24 @@ public class Semester {
     public boolean isCompleted() {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
-        // We are past the current semester
-        if (year > this.getYear())
-            return true;
-        else
-            return false;
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        switch (this.getSeason()) {
+            case "Fall":
+                if (this.getYear() < year) return true;
+                else return false;
+            case "Winter":
+                if (this.getYear() < year) return true;
+                else return false;
+            case "Spring":
+                if (this.getYear() < year) return true;
+                else return false;
+            case "Summer":
+                if (this.getYear() < year) return true;
+                else return false;
+        }
+        return false;
     }
 
 }

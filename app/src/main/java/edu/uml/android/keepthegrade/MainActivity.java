@@ -205,6 +205,10 @@ public class MainActivity extends AppCompatActivity {
         ListView classListView = (ListView) findViewById(R.id.class_list_view);
         if (currentSemester != null) {
             getSupportActionBar().setTitle(currentSemester.getSeason() + " " + currentSemester .getYear());
+            // If the semester is completed, note to user grades are final
+            if (currentSemester.isCompleted()) {
+                getSupportActionBar().setTitle(getSupportActionBar().getTitle() + " (FINAL)");
+            }
             mClassAdapter = new ClassAdapter(this, dbUtils.getClassList(currentSemester.getId()));
             // If we can't find any classes, say so to the user
             if (mClassAdapter.getCount() == 0) {
@@ -219,19 +223,21 @@ public class MainActivity extends AppCompatActivity {
                 TextView empty = (TextView) findViewById(R.id.no_classes);
                 empty.setVisibility(View.GONE);
                 classListView.setAdapter(mClassAdapter);
-                // Set up on click listener for each item
-                classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Class c = mClassAdapter.getItem(i);
-                        Intent intent = new Intent(MainActivity.this, ClassActivity.class);
-                        intent.putExtra("classId", c.getClassId());
-                        intent.putExtra("className", c.getName());
-                        intent.putExtra("classSeason", currentSemester.getSeason());
-                        intent.putExtra("classYear", currentSemester.getYear());
-                        startActivityForResult(intent, 1);
-                    }
-                });
+                // Set up on click listener for each item, as long as it isn't completed
+                if (!currentSemester.isCompleted()) {
+                    classListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Class c = mClassAdapter.getItem(i);
+                            Intent intent = new Intent(MainActivity.this, ClassActivity.class);
+                            intent.putExtra("classId", c.getClassId());
+                            intent.putExtra("className", c.getName());
+                            intent.putExtra("classSeason", currentSemester.getSeason());
+                            intent.putExtra("classYear", currentSemester.getYear());
+                            startActivityForResult(intent, 1);
+                        }
+                    });
+                }
             }
         } else {
             mClassAdapter = new ClassAdapter(this, new ArrayList<Class>());
