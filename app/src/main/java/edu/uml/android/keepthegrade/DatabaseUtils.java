@@ -280,8 +280,9 @@ public class DatabaseUtils {
 
         Cursor cursor = db.query(GradeEntry.TABLE_NAME,
                 new String[]{GradeEntry.COLUMN_NAME, GradeEntry.COLUMN_GRADE},
-                GradeEntry.COLUMN_TYPE + " = ?",
-                new String[]{Integer.toString(GradeEntry.TYPE_EXAM)},
+                GradeEntry.COLUMN_TYPE + " = ? AND " +
+                        GradeEntry.COLUMN_CLASS_ID + " = ?",
+                new String[]{Integer.toString(GradeEntry.TYPE_EXAM), Integer.toString(classId)},
                 null, null, null);
 
         int columnName = cursor.getColumnIndex(GradeEntry.COLUMN_NAME);
@@ -304,8 +305,9 @@ public class DatabaseUtils {
 
         Cursor cursor = db.query(GradeEntry.TABLE_NAME,
                 new String[]{GradeEntry.COLUMN_NAME, GradeEntry.COLUMN_GRADE},
-                GradeEntry.COLUMN_TYPE + " = ?",
-                new String[]{Integer.toString(GradeEntry.TYPE_QUIZ)},
+                GradeEntry.COLUMN_TYPE + " = ? AND " +
+                        GradeEntry.COLUMN_CLASS_ID + " = ?",
+                new String[]{Integer.toString(GradeEntry.TYPE_QUIZ), Integer.toString(classId)},
                 null, null, null);
 
         int columnName = cursor.getColumnIndex(GradeEntry.COLUMN_NAME);
@@ -328,8 +330,9 @@ public class DatabaseUtils {
 
         Cursor cursor = db.query(GradeEntry.TABLE_NAME,
                 new String[]{GradeEntry.COLUMN_NAME, GradeEntry.COLUMN_GRADE},
-                GradeEntry.COLUMN_TYPE + " = ?",
-                new String[]{Integer.toString(GradeEntry.TYPE_HW)},
+                GradeEntry.COLUMN_TYPE + " = ? AND " +
+                GradeEntry.COLUMN_CLASS_ID + " = ?",
+                new String[]{Integer.toString(GradeEntry.TYPE_HW), Integer.toString(classId)},
                 null, null, null);
 
         int columnName = cursor.getColumnIndex(GradeEntry.COLUMN_NAME);
@@ -352,8 +355,9 @@ public class DatabaseUtils {
 
         Cursor cursor = db.query(GradeEntry.TABLE_NAME,
                 new String[]{GradeEntry.COLUMN_NAME, GradeEntry.COLUMN_GRADE},
-                GradeEntry.COLUMN_TYPE + " = ?",
-                new String[]{Integer.toString(GradeEntry.TYPE_FINAL)},
+                GradeEntry.COLUMN_TYPE + " = ? AND " +
+                        GradeEntry.COLUMN_CLASS_ID + " = ?",
+                new String[]{Integer.toString(GradeEntry.TYPE_FINAL), Integer.toString(classId)},
                 null, null, null);
 
         int columnName = cursor.getColumnIndex(GradeEntry.COLUMN_NAME);
@@ -504,7 +508,6 @@ public class DatabaseUtils {
         cursor.close();
 
         // Update the database now
-        Log.e("WOWOWOWOWOWO", Double.toString(finalGrade));
         if (Double.isNaN(finalGrade)) return -1;
         String whereClause = ClassEntry._ID + " = ?";
         String[] whereArgs = { Integer.toString(classId) };

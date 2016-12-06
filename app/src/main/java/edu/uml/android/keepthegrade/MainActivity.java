@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         Query the database and get the ordered list of semesters and place them in the drawer.
         The two parameters combined are what the function will load in.
         @param season; The season we want to display.
-            Note: If season == "top", it will always display the top semester.
+            Note: If season == "top", it will always display the newest/future semester.
         @param year; The year we want to display.
         @return N/A
      */
