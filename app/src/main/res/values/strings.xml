@@ -12,7 +12,7 @@
     <string name="label_current">Current Semester</string>
 
     <string-array name="chart_titles">
-        <item>All</item>
+        <!--<item>All</item>-->
         <item>Exams</item>
         <item>HW</item>
         <item>Quizzes</item>

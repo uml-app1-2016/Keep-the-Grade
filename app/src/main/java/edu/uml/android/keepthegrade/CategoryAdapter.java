@@ -50,16 +50,16 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         Chart c = null;
         DatabaseUtils d = new DatabaseUtils(mC);
 
-        if(position == 0) {          //All
-            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85.0, 92.0, 76.0, 100.0, 88.0), Arrays.asList("A", "B", "C", "D", "E"));
-        }else if(position == 1) {    //Exams
+//        if(position == 0) {          //All
+//            c = new Chart(getPageTitle(position).toString(), Arrays.asList(85.0, 92.0, 76.0, 100.0, 88.0), Arrays.asList("A", "B", "C", "D", "E"));
+        if(position == 0) {    //Exams
             c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getExamGradesList(mClassID)), getNameFromList(d.getExamGradesList(mClassID)));
             //c = new Chart(getPageTitle(position).toString(), Arrays.asList(85, 92, 100, 100, 88), Arrays.asList("A", "B", "C", "D", "E"));
-        }else if(position == 2) {     //HW
+        }else if(position == 1) {     //HW
             c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getHwGradesList(mClassID)), getNameFromList(d.getHwGradesList(mClassID)));
-        }else if(position == 3) {     //Quizzes
+        }else if(position == 2) {     //Quizzes
             c = new Chart(getPageTitle(position).toString(),getGradeFromList(d.getQuizGradesList(mClassID)), getNameFromList(d.getQuizGradesList(mClassID)));
-        }else if(position == 4) {     //Final
+        }else if(position == 3) {     //Final
             c = new Chart(getPageTitle(position).toString(), getGradeFromList(d.getFinalGradesList(mClassID)), getNameFromList(d.getFinalGradesList(mClassID)));
         }
 
