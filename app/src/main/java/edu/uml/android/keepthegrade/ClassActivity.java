@@ -246,23 +246,53 @@ public class ClassActivity extends AppCompatActivity {
         finalList.setAdapter(mFinalAdapter);
 
         // Set the size of the list
-        ViewGroup.LayoutParams paramsExam = examList.getLayoutParams();
-        paramsExam.height = mExamAdapter.getCount() * 160;
-        examList.setLayoutParams(paramsExam);
-        examList.requestLayout();
-        ViewGroup.LayoutParams paramsQuiz = quizList.getLayoutParams();
-        paramsQuiz.height = mQuizAdapter.getCount() * 160;
-        quizList.setLayoutParams(paramsQuiz);
-        quizList.requestLayout();
-        ViewGroup.LayoutParams paramsHw = hwList.getLayoutParams();
-        paramsHw.height = mHwAdapter.getCount() * 160;
-        hwList.setLayoutParams(paramsHw);
-        hwList.requestLayout();
-        ViewGroup.LayoutParams paramsFinal = finalList.getLayoutParams();
-        paramsFinal.height = mFinalAdapter.getCount() * 160;
-        finalList.setLayoutParams(paramsFinal);
-        finalList.requestLayout();
+        if (mExamAdapter.getCount() == 1) {
+            ViewGroup.LayoutParams paramsExam = examList.getLayoutParams();
+            paramsExam.height = mExamAdapter.getCount() * 160;
+            examList.setLayoutParams(paramsExam);
+            examList.requestLayout();
+        } else {
+            ViewGroup.LayoutParams paramsExam = examList.getLayoutParams();
+            paramsExam.height = mExamAdapter.getCount() * 120;
+            examList.setLayoutParams(paramsExam);
+            examList.requestLayout();
+        }
 
+        if (mQuizAdapter.getCount() == 1) {
+            ViewGroup.LayoutParams paramsQuiz = quizList.getLayoutParams();
+            paramsQuiz.height = mQuizAdapter.getCount() * 160;
+            quizList.setLayoutParams(paramsQuiz);
+            quizList.requestLayout();
+        } else {
+            ViewGroup.LayoutParams paramsQuiz = quizList.getLayoutParams();
+            paramsQuiz.height = mQuizAdapter.getCount() * 120;
+            quizList.setLayoutParams(paramsQuiz);
+            quizList.requestLayout();
+        }
+
+        if (mHwAdapter.getCount() == 1) {
+            ViewGroup.LayoutParams paramsHw = hwList.getLayoutParams();
+            paramsHw.height = mHwAdapter.getCount() * 160;
+            hwList.setLayoutParams(paramsHw);
+            hwList.requestLayout();
+        } else {
+            ViewGroup.LayoutParams paramsHw = hwList.getLayoutParams();
+            paramsHw.height = mHwAdapter.getCount() * 120;
+            hwList.setLayoutParams(paramsHw);
+            hwList.requestLayout();
+        }
+
+        if (mFinalAdapter.getCount() == 1) {
+            ViewGroup.LayoutParams paramsFinal = finalList.getLayoutParams();
+            paramsFinal.height = mFinalAdapter.getCount() * 160;
+            finalList.setLayoutParams(paramsFinal);
+            finalList.requestLayout();
+        } else {
+            ViewGroup.LayoutParams paramsFinal = finalList.getLayoutParams();
+            paramsFinal.height = mFinalAdapter.getCount() * 120;
+            finalList.setLayoutParams(paramsFinal);
+            finalList.requestLayout();
+        }
     }
 
     /*
