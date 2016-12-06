@@ -16,7 +16,7 @@
         <item>Exams</item>
         <item>HW</item>
         <item>Quizzes</item>
-        <item>Final</item>
+        <!--<item>Final</item>-->
     </string-array>
 
     <string name="grade_total">Current Grade</string>
