@@ -50,10 +50,9 @@ public class Chart {
         }
 
         // Turn array of names into bar-separated list for URI
-        //|Exam 1
         StringBuilder nb = new StringBuilder();
         for (String j : names) {
-            nb.append(j.replaceAll(" ", "_"));
+            nb.append(j.replaceAll(" ", "%20"));
             nb.append("|");
         }
 
@@ -64,7 +63,6 @@ public class Chart {
             sb.setLength(0);
         }
 
-        //TODO Explore other options like axes labels
         // https://developers.google.com/chart/image/docs/chart_params#axis-styles-and-labels-line------bar-google-o-meter-radar-scatter
         Log.i(this.getClass().getSimpleName(), "INFO: " + nb.toString());
         mImageURI = Uri.parse(
